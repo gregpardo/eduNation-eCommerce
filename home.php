@@ -1,7 +1,7 @@
 <?php
 	require ('./includes/config.inc.php');
-	include ('./includes/header.php');
 	require (MYSQL);
+	include ('./includes/header.php');
 ?>
 
 				<div class="grid_12">
@@ -10,16 +10,17 @@
 				</div>
 				<div class="grid_8">
 					<?php 
-						$result = mysql_query ("SELECT * FROM products ORDER BY RAND() LIMIT 1", $connection);
-						while ($row = mysql_fetch_array($result))
+						
+						$result = mysqli_query ($dbc, "SELECT * FROM products ORDER BY RAND() LIMIT 1");
+						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
    						{
 					?>
 					<div id="adv">
 					
-					<a href="catalog.php"><img class="display" src="<?php echo 'img/' . $row["productImage"] ?>" alt="Blockers" /></a>
+					<a href="catalog.php"><img class="display" src="<?php echo 'img/' . $row["image"] ?>" alt="Blockers" /></a>
 						<h5>Limited Time Only</h5>
-						<h1><?php echo $row["productName"] ?></h1>
-						<h2><?php echo $row["brandName"] ?></h2>
+						<h1><?php echo $row["name"] ?></h1>
+						<h2><?php echo $row["brand"] ?></h2>
 						<ul>
 							<li>Develops:</li>
 							<li>- <?php echo $row["feat1"] ?></li>
@@ -27,7 +28,8 @@
 							<li>- <?php echo $row["feat3"] ?></li>
 						</ul>
 						<h4>Price: $<?php echo $row["price"] ?></h4>
-						<h3><a class="shopnow" href="catalog.php">SALE: $<?php echo $row["salePrice"] ?></a></h3>	
+						<!-- Removed sale price until code is working -->
+						<!-- <h3><a class="shopnow" href="catalog.php">SALE: $<?php echo $row["salePrice"] ?></a></h3>	-->
 					</div>
 					<?php } ?>
 				</div>

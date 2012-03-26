@@ -54,11 +54,18 @@
 							// Create each menu item:
 							foreach ($pages as $k => $v) {
 								echo '<li><div';
-								if ($this_page == $v) echo ' class="tab'.$tabnum.'"';
+								echo ' class="tab'.$tabnum.'"';
 								echo '><a href="' . $v . '">' . $k . '</a></div></li>
 								';
-								
+								$tabnum++;
 							} // End of FOREACH loop.
+							
+							// For some reason mikes code needs 4 list items to display correctly (quick hack)
+							while ($tabnum <= 4) {
+								echo '<li></li>';
+								$tabnum++;
+							}
+							
 							?>
 							<!-- END MENU -->
 						</ul>

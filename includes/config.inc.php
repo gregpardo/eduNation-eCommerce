@@ -10,7 +10,7 @@ $contact_email = 'gregpardo@knights.ucf.com';
 // ************ CONSTANTS *********** //
 
 // Determine location of files and the URL of the site:
-define ('BASE_URI', 'includes/');
+define ('BASE_URI', 'private/');
 define ('BASE_URL', 'localhost/edunation/');
 define ('PDFS_DIR', BASE_URI . 'pdfs/'); // Added in Chapter 5.
 define ('MYSQL', BASE_URI . 'mysql.inc.php');
@@ -86,5 +86,5 @@ function redirect_invalid_user($check = 'user_id', $destination = 'index.php', $
 
 
 // For debugging
-$_SESSION['user_id'] = 1;
+$_SESSION['user_id'] = "Admin";
 $_SESSION['user_type'] = 'admin';
