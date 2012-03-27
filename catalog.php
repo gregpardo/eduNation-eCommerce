@@ -28,12 +28,19 @@
 				<div class="grid_2">
 					<div id="sidenav">
 						<ul>
-							<!-- 
-							<li><a href="arts.php">Arts/Crafts</a></li>
-							<li><a href="books.php">Books/DVDs</a></li>
-							<li><a href="decor.php">Decorations</a></li>
-							<li><a href="games.php">Games</a></li>
-							<li><a href="teach.php">Teacher Aids</a></li> -->
+							<?php 
+							$result = mysqli_query ($dbc, "CALL select_categories();");
+							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+							{
+								echo '<li><a href="catalog.php">'.row['name'].'</a></li>';
+								/* Old version
+								<li><a href="arts.php">Arts/Crafts</a></li>
+								<li><a href="books.php">Books/DVDs</a></li>
+								<li><a href="decor.php">Decorations</a></li>
+								<li><a href="games.php">Games</a></li>
+								<li><a href="teach.php">Teacher Aids</a></li>*/
+							}
+							?>
 						</ul>
 					</div>
 				</div>

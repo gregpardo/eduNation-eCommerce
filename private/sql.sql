@@ -1,10 +1,6 @@
 --
--- Database: `ecommerce2`
+-- Database: `edunation` (Group 6)
 --
-
--- Do not run this page in batch mode!
--- There are a couple of stored procedures that get redefined.
--- Either edit this SQL file accordingly, then run it in batch mode, or copy and paste commands as needed.
 
 -- --------------------------------------------------------
 
@@ -55,11 +51,11 @@ CREATE TABLE `customers` (
 
 CREATE TABLE `categories` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `category` varchar(40) NOT NULL,
+  `name` varchar(40) NOT NULL,
   `description` tinytext,
   `image` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `type` (`category`)
+  UNIQUE KEY `type` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
@@ -142,7 +138,7 @@ CREATE TABLE `order_contents` (
   `ship_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ship_date` (`ship_date`),
-  KEY `product_type` (`product_type`,`product_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -159,7 +155,7 @@ CREATE TABLE `sales` (
   `end_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `start_date` (`start_date`),
-  KEY `product_type` (`product_type`,`product_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
@@ -213,26 +209,33 @@ CREATE TABLE `wish_lists` (
   KEY `product_type` (`product_type`,`product_id`),
   KEY `user_session_id` (`user_session_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+*/
 
 -- -----------------------------
 -- Stored Procedures --
 -- -----------------------------
 
 DELIMITER $$
-CREATE PROCEDURE select_categories (type VARCHAR(6))
+DROP PROCEDURE IF EXISTS `select_categories` $$
+CREATE PROCEDURE select_categories ()
 BEGIN
-SELECT * FROM categories ORDER by category;
+	SELECT * FROM categories ORDER by category;
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE select_products(type VARCHAR(6), cat TINYINT)
+DROP PROCEDURE IF EXISTS `select_products` $$
+CREATE PROCEDURE select_products(cat TINYINT)
 BEGIN
-SELECT * FROM products WHERE category_id=cat ORDER by name ASC;
+IF cat IS NULL THEN
+	SELECT * FROM products ORDER by name ASC;
+ELSE
+	SELECT * FROM products WHERE category_id=cat ORDER by name ASC;
+END IF;
 END$$
 DELIMITER ;
 
-
+/*
 
 
 SELECT sa.price AS sale_price, ncc.category, ncp.image, ncp.name, ncp.price, ncp.stock, ncp.description 
