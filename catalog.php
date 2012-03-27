@@ -5,6 +5,9 @@
 	
 	if (isset($_GET["category"])) {
 		$category = $_GET["category"];
+		$result = mysqli_query ($dbc, "SELECT * FROM categories WHERE id=$category ORDER by name;");
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) $categoryName = $row['name'];
+
 	}
 	else {
 		$category = null;
@@ -15,7 +18,7 @@
 					<?php
 						if ($category) {
 							echo '<a href="catalog.php">Products</a>';
-							echo '<a class="current" href="catalog.php?category='.$category.'">Products</a>';
+							echo ' &gt; <a class="current" href="catalog.php?category='.$category.'">'.$categoryName.'</a>';
 						}
 						else {
 							echo '<a class="current" href="catalog.php">Products</a>';
@@ -29,50 +32,43 @@
 					<div id="sidenav">
 						<ul>
 							<?php 
-							$result = mysqli_query ($dbc, "CALL select_categories();");
+
+							$result = mysqli_query ($dbc, "SELECT * FROM categories ORDER by name;");
+							//trigger_error($result);
+							$categories_rows = array();
 							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 							{
-								echo '<li><a href="catalog.php">'.row['name'].'</a></li>';
-								/* Old version
-								<li><a href="arts.php">Arts/Crafts</a></li>
-								<li><a href="books.php">Books/DVDs</a></li>
-								<li><a href="decor.php">Decorations</a></li>
-								<li><a href="games.php">Games</a></li>
-								<li><a href="teach.php">Teacher Aids</a></li>*/
+								array_push($categories_rows, $row);
+								$categoryLink = '<a href="catalog.php?category='.$row['id'].'">';
+								echo '<li>'.$categoryLink.$row['name'].'</a></li>';
 							}
 							?>
 						</ul>
 					</div>
 				</div>
+				<?php 
+					// Display products in specific category
+					if ($category) {
+						print "TODO: Show all products in category";
+					}
+					// Display category links
+					else {
+						print "No category";
+				
+						foreach ($categories_rows as $row) {
+							$categoryLink = '<a href="catalog.php?category='.$row['id'].'">';
+							$image = $row['image'];
+							$name = $row['name'];
+						?>
 				<div class="grid_3">
 					<div class="prod">
-						<h2><a href="arts.php">Arts/Crafts</a></h2>
-						<a href="arts.php"><img src="img/item2a.png" alt="arts/crafts" /></a>
+						<h2><?php echo $categoryLink ?><?php echo $name ?></a></h2>
+						<?php echo $categoryLink ?><img src="img/<?php echo $image ?>" alt="<?php echo $name ?>" /></a>
 					</div>
 				</div>
-				<div class="grid_3">
-					<div class="prod">
-						<h2><a href="books.php">Books/DVDs</a></h2>
-						<a href="books.php"><img class="move" src="img/item5a.png" alt="books/dvds" /></a>
-					</div>
-				</div>
-				<div class="grid_3">
-					<div class="prod">
-						<h2><a href="decor.php">Decorations</a></h2>
-						<a href="decor.php"><img src="img/item9b.png" alt="decorations" /></a>
-					</div>
-				</div>
-				<div class="grid_3">
-					<div class="prod">
-						<h2><a href="games.php">Games</a></h2>
-						<a href="games.php"><img src="img/item1a.png" alt="games" /></a>
-					</div>
-				</div>
-				<div class="grid_3">
-					<div class="prod">
-						<h2><a href="teach.php">Teacher Aids</a></h2>
-						<a href="teach.php"><img src="img/item10b.png" alt="teacher aids" /></a>
-					</div>
-				</div>
+						<?php
+						}
+					}
+				?>
 			</div>
 <?php include ('./includes/footer.php'); ?>

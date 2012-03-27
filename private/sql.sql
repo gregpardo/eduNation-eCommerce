@@ -64,9 +64,9 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` VALUES(1, 'Arts/Crafts', 'Art description here.', 'item2a.png');
 INSERT INTO `categories` VALUES(2, 'Books/DVDs', 'Book/dvd description here.', 'item5a.png');
-INSERT INTO `categories` VALUES(3, 'Decorations', 'Decoration description here.', 'item9b.jpg');
-INSERT INTO `categories` VALUES(4, 'Games', 'Game description here.', 'item1a.jpg');
-INSERT INTO `categories` VALUES(5, 'Teacher Aids', 'Teacher aid description here', 'item10b.jpg');
+INSERT INTO `categories` VALUES(3, 'Decorations', 'Decoration description here.', 'item9b.png');
+INSERT INTO `categories` VALUES(4, 'Games', 'Game description here.', 'item1a.png');
+INSERT INTO `categories` VALUES(5, 'Teacher Aids', 'Teacher aid description here', 'item10b.png');
 
 -- --------------------------------------------------------
 
@@ -217,9 +217,13 @@ CREATE TABLE `wish_lists` (
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `select_categories` $$
-CREATE PROCEDURE select_categories ()
+CREATE PROCEDURE select_categories (cat TINYINT)
 BEGIN
-	SELECT * FROM categories ORDER by category;
+IF cat IS NULL THEN
+	SELECT * FROM categories ORDER by name;
+ELSE
+	SELECT * FROM categories WHERE id=cat ORDER by name;
+END IF;
 END$$
 DELIMITER ;
 
