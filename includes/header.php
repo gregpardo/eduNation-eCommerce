@@ -78,5 +78,4 @@
 					</div>
 
 			</div>
-			<div id="home"> 
 			<!-- Content goes below -->

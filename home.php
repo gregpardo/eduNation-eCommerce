@@ -3,7 +3,7 @@
 	require (MYSQL);
 	include ('./includes/header.php');
 ?>
-
+			<div id="home"> 
 				<div class="grid_12">
 					<a href="#"><img class="search" src="img/search1.png" alt="search bar" /></a>
 						<input class="search" type="text" />
@@ -11,7 +11,7 @@
 				<div class="grid_8">
 					<?php 
 						
-						$result = mysqli_query ($dbc, "SELECT * FROM products ORDER BY RAND() LIMIT 1");
+						$result = mysqli_query ($dbc, "SELECT * FROM products WHERE is_featured=1 ORDER BY RAND() LIMIT 1");
 						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
    						{
 					?>

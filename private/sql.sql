@@ -88,13 +88,14 @@ CREATE TABLE `products` (
   `feat2` varchar(50) NOT NULL,
   `feat3` varchar(50) NOT NULL,
   `image` varchar(45) NOT NULL,
+  `is_featured` BOOLEAN NOT NULL DEFAULT  '0',
   `stock` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-
+-- Note doesn't set any items featured right now
 INSERT INTO `products` (`id`, `name`, `brand`, `description`, `feat1`, `feat2`, `feat3`, `category_id`, `stock`, `cost`, `price`,`image`) VALUES
 (1210001, 'Blockers!', 'Briarpatch Inc.', 'A minute of rules, then a lifetime of fun for the whole family! Play your tiles strategically to create the fewest number of groups...then block and capture to foil your opponents!  Develops strategic thinking, visual discrimination and social development.', 'Strategic Thinking', 'Visual Discrimination', 'Social Development', 4, 1000, 26.50, 31.35, 'item1.png'),
 (1310001, 'Jumbo Chalk', 'Melissa & Doug', '10 ct. Colorful, chunky, triangular chalk sticks are easy to grasp and won''t roll away! Non-toxic chalk is great inside for chalkboards or paper, or outside for sidewalk fun! The unique shape will help develop the preferred grip for later writing skills.', 'Motor Skills', 'Creativity', 'Writing Skills', 1, 1000, 1.25, 2.55, 'item2.png'),
@@ -106,6 +107,14 @@ INSERT INTO `products` (`id`, `name`, `brand`, `description`, `feat1`, `feat2`, 
 (1210002, '200 Brain Games', 'Teacher Created', 'Tons of fun in one little box! Play independently or with a friend—in school, at home, or while traveling. Find the Hidden Meanings of visual word puzzles. Complete Comparisons (Analogies) like the ones that appear on standardized tests. Solve Word Workouts and respond to Math Madness. 200 game cards come with directions and ideas for variations and group play. For 1 or more players. Ages 8 & up.', 'Social Development', 'Problem Solving', 'Vocabulary', 4, 1000, 10.95, 16.45, 'item8.png'),
 (1610001, 'Shelf Organizer', 'Pacon Corporation', 'Designed to handle the weight of heavier materials like reams of paper and books. The shelves measure 12-1/2" x 10" x 3". Easy to assemble.', 'Organizational Skills', 'Cleanliness', 'Sorting', 5, 1000, 19.50, 30.15, 'item10.png'),
 (1510001, 'Adhesive Letters', 'Pacon Corporation', 'Easy to use - just peel and place! A unique adhesive makes these fade-resistant letters removable, repositionable and reusable. Adheres to any clean, dry surface that is smooth or lightly textured. Set includes uppercase letters with numbers and punctuation marks.', 'Letter Recognition', 'Familiarity', 'Visual Discrimination', 3, 1000, 5.00, 9.40, 'item9.png');
+
+
+-- Set default featured products (Using first 5 for now)
+UPDATE `products` SET `is_featured` = 1 WHERE `id`=1210001;
+UPDATE `products` SET `is_featured` = 1 WHERE `id`=1310001;
+UPDATE `products` SET `is_featured` = 1 WHERE `id`=1310002;
+UPDATE `products` SET `is_featured` = 1 WHERE `id`=1310003;
+UPDATE `products` SET `is_featured` = 1 WHERE `id`=1410001;
 
 --
 -- Table structure for table `orders`
@@ -242,10 +251,6 @@ DELIMITER ;
 /*
 
 
-SELECT sa.price AS sale_price, ncc.category, ncp.image, ncp.name, ncp.price, ncp.stock, ncp.description 
-FROM sales AS sa
-INNER JOIN general_products AS prod ON prod.id=sa.id
-WHERE ((NOW() BETWEEN sa.start_date AND sa.end_date) OR (NOW() > sa.start_date AND sa.end_date IS NULL) )
 
 -- get_all gets every column instead of just the main
 DELIMITER $$

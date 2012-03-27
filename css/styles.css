@@ -492,10 +492,24 @@ div.item h3 {
 	font-size: 17px;
 }
 
+div.item h3.sale{
+	position: relative;
+	top: -35px;
+	color: #bb2200;
+	font-size: 17px;
+}
+
 div.item h4 {
 	position: relative;
 	top: -10px;
 	color: #bb2200;
+	font-size: 13px;
+	text-decoration: line-through;
+}
+div.item h4.sale{
+	position: relative;
+	top: -10px;
+	color: #4477ff;
 	font-size: 13px;
 	text-decoration: line-through;
 }

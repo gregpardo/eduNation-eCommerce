@@ -13,6 +13,7 @@
 		$category = null;
 	}
 ?>
+			<div id="home"> 
 				<div class="grid_12">
 				<p><a href="home.php">Home</a> &gt; 
 					<?php
@@ -34,7 +35,7 @@
 							<?php 
 
 							$result = mysqli_query ($dbc, "SELECT * FROM categories ORDER by name;");
-							//trigger_error($result);
+							
 							$categories_rows = array();
 							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 							{
@@ -49,11 +50,41 @@
 				<?php 
 					// Display products in specific category
 					if ($category) {
-						print "TODO: Show all products in category";
+						$result = mysqli_query ($dbc, "SELECT * FROM products WHERE category_id=$category ORDER by name;");
+
+						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+						{
+							$productPrice = $row['price'];
+							$productLink = '<a href="product.php?product_id='.$row['id'].'">';
+							$productName = $row['name'];
+							$productBrand = $row['brand'];
+							
+							?>
+							<div class="grid_3">
+								<div class="item">
+									<h1><?php echo $productLink ?></a><?php echo $productName ?></h1>
+									<h2><?php echo $productBrand ?></h2>
+									<?php echo $productLink ?><img src="img/<?php echo imageSmall($row['image']) ?>" alt="<?php echo $productName ?>" /></a>
+									
+							<?php
+									$salePrice = productIsOnSale($dbc, $row['id']);
+									// On sale display sale price
+									if ($salePrice) {
+										echo "<h4 class=\"sale\">Price: $productPrice</h4>";
+										echo "<h3 class=\"sale\">SALE: $salePrice</h3>";
+									}
+									else {
+										echo "<br /><br /><br /><h3>Price: $productPrice</h3>";
+									}
+							?>
+								</div>
+							</div>
+							<?php
+						}
 					}
 					// Display category links
 					else {
-						print "No category";
+						//print "No category";
 				
 						foreach ($categories_rows as $row) {
 							$categoryLink = '<a href="catalog.php?category='.$row['id'].'">';
