@@ -173,12 +173,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		//$desc, $_SESSION['image']['new_name'], $_POST['price'], $_POST['stock']);
 		
 		// Make the extra variable associations:
-		$name = strip_tags($_POST['name']);
-		$brand = strip_tags($_POST['brand']);
-		$desc = strip_tags($_POST['description']);
-		$feat1 = strip_tags($_POST['feat1']);
-		$feat2 = strip_tags($_POST['feat2']);
-		$feat3 = strip_tags($_POST['feat3']);
+		$name = mysqli_real_escape_string($dbc, strip_tags($_POST['name']));
+		$brand = mysqli_real_escape_string($dbc, strip_tags($_POST['brand']));
+		$desc = mysqli_real_escape_string($dbc, strip_tags($_POST['description']));
+		$feat1 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat1']));
+		$feat2 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat2']));
+		$feat3 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat3']));
 		if ($_POST['is_featured'] == "yes") $isFeatured = true;
 		else if ($_POST['is_featured'] == "no") $isFeatured = false;
 
