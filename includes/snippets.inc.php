@@ -62,3 +62,65 @@ function str_insert_before($str, $search, $insert) {
 	$last_part = substr($str, $index);
     return $first_part . $middle_part . $last_part;
 }
+
+
+
+/***********************************************
+//          Image size manipulation 
+//
+// Format:
+//          item1.png    <-- 275 x height
+//          item1a.png   <-- 196 x height
+//          item1.jpg    <-- 350 x height
+//
+***********************************************/
+
+function resize_image($file, $size, $delete_orig=FALSE) {
+	$crop = FALSE;
+    list($width, $height) = getimagesize($file);
+    $r = $width / $height;
+	if ($size == "small") $w = 196;
+	if ($size == "med" || $size == "medium") $w = 275;
+	if ($size == "large") $w = 350;
+	$h = $r * $height;
+    if ($crop) {
+        if ($width > $height) {
+            $width = ceil($width-($width*($r-$w/$h)));
+        } else {
+            $height = ceil($height-($height*($r-$w/$h)));
+        }
+        $newwidth = $w;
+        $newheight = $h;
+    } else {
+        if ($w/$h > $r) {
+            $newwidth = $h*$r;
+            $newheight = $h;
+        } else {
+            $newheight = $w/$r;
+            $newwidth = $w;
+        }
+    }
+    $src = @imagecreatefromstring(file_get_contents($file));
+    $dst = imagecreatetruecolor($newwidth, $newheight);
+	
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+
+	$info = pathinfo($file);
+	
+	if ($size == "small") {
+		$file_name =  $info['dirname'].'/'.$info['filename'].'a.png';
+		imagepng($dst, $file_name);
+		
+	}
+	else if ($size == "med" || $size == "medium") {
+		$file_name =  $info['dirname'].'/'.$info['filename'].'.png';
+		imagepng($dst, $file_name);
+	}
+	else {
+		$file_name =  $info['dirname'].'/'.$info['filename'].'.jpg';
+		imagejpeg($dst, $file_name, 80);
+	}
+	
+	imagedestroy($dst);
+	return $file_name;
+}

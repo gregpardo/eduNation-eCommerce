@@ -12,8 +12,11 @@
 ?>
 			<div id="home"> 
 				<div class="grid_12">
+				
+				
 				<p><a href="home.php">Home</a> &gt; 
 					<?php
+						// This code does Products -> Category -> Current Product Name
 						if ($productID) {
 							echo '<a href="catalog.php">Products</a>';
 							$result = mysqli_query ($dbc, "SELECT category_id,name FROM products WHERE id=$productID;");

@@ -5,11 +5,6 @@
 	
 ?>
 			<div id="home">
-				<div class="grid_12">
-				<p><a href="home.php">Home</a> &gt; <a class="current" href="admin.php">Admin</a></p>
-					<a href="#"><img class="search" src="img/search1.png" alt="search bar" /></a>
-						<input class="search" type="text" />
-				</div>
 			
 				<div class="grid_8">
 					<div id="check">
@@ -38,19 +33,7 @@
 					
 				</div>
 				
-				<div class="grid_3">
-					<div id="contact">
-						<h2>In Store Pick-up?</h2>
-						<ul>
-							<li>4000 Central Florida Blvd</li>
-							<li>Orlando, FL 32816</li>
-							<li>1-555-EDU-CATE</li>
-							<li>&nbsp;</li>
-							<li><h5>Questions/Comments?</h5></li>
-							<li><a class="shopnow" href="contact.php">Contact us</a> via email or give us a call between <em class="it">9am-6pm M-F</em>.</li>
-						</ul>
-					</div>
-				</div>
+
 				
 			</div>
 <?php include ('./includes/footer.php'); ?>
