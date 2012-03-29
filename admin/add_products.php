@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 
 	// Check for a is_featured:
-	if (!isset($_POST['is_featured']) || !filter_var($_POST['is_featured'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+	if (!isset($_POST['is_featured'])) {
 		$add_product_errors['is_featured'] = 'Please choose if the product should be featured!';
 	}
 	
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 				$info = pathinfo($dest);
 				$new_name =  pathinfo($dest);
-				$new_name = $new_name['filename'];
+				$new_name = $new_name['filename'].'.'.$new_name['extension'];
 				$_SESSION['image']['new_name'] = $new_name;
 				$_SESSION['image']['file_name'] = $new_name;
 				
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// if (!$stmt) echo mysqli_stmt_error($stmt);
 
 		// Bind the variables:
-		mysqli_stmt_bind_param($stmt, 'isssddssssii', $_POST['category'], $name, $brand, $desc, $_POST['price'], $_POST['cost'], $feat1, $feat2, $feat3, $_SESSION['image']['new_name'], $_POST['is_featured'], $_POST['stock']);
+		mysqli_stmt_bind_param($stmt, 'isssddssssii', $_POST['category'], $name, $brand, $desc, $_POST['price'], $_POST['cost'], $feat1, $feat2, $feat3, $_SESSION['image']['new_name'], $isFeatured, $_POST['stock']);
 		
 		//$desc, $_SESSION['image']['new_name'], $_POST['price'], $_POST['stock']);
 		
@@ -179,7 +179,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$feat1 = strip_tags($_POST['feat1']);
 		$feat2 = strip_tags($_POST['feat2']);
 		$feat3 = strip_tags($_POST['feat3']);
-		
+		if ($_POST['is_featured'] == "yes") $isFeatured = true;
+		else if ($_POST['is_featured'] == "no") $isFeatured = false;
+
 		// Execute the query:
 		mysqli_stmt_execute($stmt);
 		
@@ -254,9 +256,8 @@ require ('../includes/form_functions.inc.php');
 						
 						<div class="field"><label for="is_featured"><strong>Featured?</strong></label><br />
 							<select name="is_featured"<?php if (array_key_exists('is_featured', $add_product_errors)) echo ' class="error"'; ?>>
-								<option>Select One</option>
-								<option value="0 <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>">No</option>
-								<option value="1 <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>">Yes</option>
+								<option value="no" <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>>No</option>
+								<option value="yes" <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>>Yes</option>
 							</select><?php if (array_key_exists('is_featured', $add_product_errors)) echo ' <span class="error">' . $add_product_errors['is_featured'] . '</span>'; ?>
 						</div>
 												
