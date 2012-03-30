@@ -219,7 +219,7 @@ require ('../includes/form_functions.inc.php');
 	<div class="grid_8">
 		<div id="check">
 			<h1>Enter a New Product:</h1>
-			<form enctype="multipart/form-data" action="add_products.php" method="post" accept-charset="utf-8">
+			<form enctype="multipart/form-data" action="add_product.php" method="post" accept-charset="utf-8">
 
 				<input type="hidden" name="MAX_FILE_SIZE" value="524288" />
 				

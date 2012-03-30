@@ -1,10 +1,19 @@
 <?php
 
+if (!$live) {
 // Set the database access information as constants:
 DEFINE ('DB_USER', 'root');
 DEFINE ('DB_PASSWORD', '');
 DEFINE ('DB_HOST', '127.0.0.1');
 DEFINE ('DB_NAME', 'edunation');
+}
+else {
+// Set the database access information as constants:
+DEFINE ('DB_USER', 'dig4530c_group06');
+DEFINE ('DB_PASSWORD', 'dig4530c_group06');
+DEFINE ('DB_HOST', '127.0.0.1');
+DEFINE ('DB_NAME', 'dig4530c_group06');
+}
 
 // Make the connection:
 $dbc = mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

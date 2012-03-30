@@ -43,12 +43,15 @@ function productIsOnSale($dbc, $id) {
 
 // Returns small occurence of image (ex image1a.png)
 function imageSmall($imageFileName) {
-	return str_insert_before($imageFileName, ".", "a");
+	$info = pathinfo($imageFileName);
+	$file_name = $info['filename'].'a.png';
+	return $file_name;
 }
 
 function imageLarge($imageFileName) {
-	$index = strpos($imageFileName, ".");
-	return substr($imageFileName, 0, $index) . ".jpg";
+	$info = pathinfo($imageFileName);
+	$file_name = $info['filename'].'.jpg';
+	return $file_name;
 }
 
 // Simple function to insert a character before first occurence of another... For image sizes

@@ -33,7 +33,7 @@
 		<div id="content">
 			<div id="header">
 				<div class="grid_10">
-					<a href="home.php"><img src="../img/EN_logo.png" alt="EduNation logo" /></a>
+					<a href="<?php echo 'http://'.BASE_URL.'home.php'; ?>"><img src="../img/EN_logo.png" alt="EduNation logo" /></a>
 				</div>
 					<div class="grid_5">
 						<ul>
