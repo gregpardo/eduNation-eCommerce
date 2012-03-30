@@ -3,7 +3,7 @@
 // ********************************** //
 // ************ SETTINGS ************ //
 
-$live = true;
+$live = false;
 $contact_email = 'gregpardo@knights.ucf.com';
 
 // ********************************** //
