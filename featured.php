@@ -7,8 +7,7 @@
 			<div id="home2"> 
 				<div class="grid_12">
 				<p><a href="home.php">Home</a> &gt; <a class="current" href="featured.php">Featured Items</a></p>
-					<a href="#"><img class="search" src="img/search1.png" alt="search bar" /></a>
-						<input class="search" type="text" />
+					<?php echo searchBar(); ?>
 				</div>
 				<div class="grid_2">
 					<div id="sidenav">

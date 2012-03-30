@@ -127,3 +127,21 @@ function resize_image($file, $size, $delete_orig=FALSE) {
 	imagedestroy($dst);
 	return $file_name;
 }
+
+
+
+/***********************************************
+//          For searching 
+//
+***********************************************/
+
+function search_transform_term($term){
+	$term = preg_replace("/(\s)/e", "'{WHITESPACE-'.ord('\$1').'}'", $term);
+	$term = preg_replace("/,/", "{COMMA}", $term);
+	return $term;
+}
+
+function searchBar(){
+		return '<form action="search.php" method="get" name="searchForm" >'.
+			'<a href="javascript: document.searchForm.submit();"><img class="search" src="img/search1.png" alt="search bar" /></a><input type="text" name="for" class="search" /></form>';
+}

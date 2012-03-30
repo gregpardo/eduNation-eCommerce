@@ -47,8 +47,7 @@
 			<div id="home">
 				<div class="grid_12">
 				<p><a href="home.php">Home</a> &gt; <a class="current" href="cart.php">Cart</a></p>
-					<a href="#"><img class="search" src="img/search1.png" alt="search bar" /></a>
-						<input class="search" type="text" />
+					<?php echo searchBar(); ?>
 				</div>
 				<div id="cart">
 					<div class="grid_3">

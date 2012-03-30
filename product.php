@@ -38,8 +38,7 @@
 						}
 					?>
 				</p>
-					<a href="#"><img class="search" src="img/search1.png" alt="search bar" /></a>
-						<input class="search" type="text" />
+					<?php echo searchBar(); ?>
 				</div>
 				<div class="grid_2">
 					<div id="sidenav">
