@@ -44,7 +44,7 @@ require ('../includes/form_functions.inc.php');
 	</div>
 	<div class="grid_9">
 		<div id="check">
-			<h1>Product Catalog</h1>
+			<h1>Categories</h1>
 			<?php 
 			$result = mysqli_query ($dbc, "SELECT * FROM categories ORDER by name;");
 			echo "<table class=\"list_table\">";
@@ -58,8 +58,8 @@ require ('../includes/form_functions.inc.php');
 				<tr>
 					<td><?php echo $categoryName ?></td>
 					<td><?php echo $categoryDesc ?></td>
-					<td><a href="edit_category.php?product_id=<?php echo $row['id'] ?>">Edit</a></td>
-					<td><a href="delete_product.php?product_id=<?php echo $row['id'] ?>">Delete</a></td>
+					<td><a href="edit_category.php?category_id=<?php echo $row['id'] ?>">Edit</a></td>
+					<td><a href="#">Delete</a></td>
 				</tr>
 				<?php
 			}

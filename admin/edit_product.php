@@ -256,7 +256,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$_POST['feat2'] = $row['feat2'];
 			$_POST['feat3'] = $row['feat3'];
 			$_SESSION['image'] = $row['image'];
-			$_SESSION['image'] = $row['image'];
 			$_POST['description'] = $row['description'];
 			$_POST['is_featured'] = $row['is_featured'];
 			$_POST['stock'] = $row['stock'];

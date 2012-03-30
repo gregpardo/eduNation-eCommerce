@@ -191,7 +191,8 @@ require ('../includes/form_functions.inc.php');
 				<input type="hidden" name="MAX_FILE_SIZE" value="524288" />
 				
 				<fieldset><legend>Fill out the form to add a category to the catalog. All fields are required.</legend>
-					
+
+						
 						<div class="field"><label for="name"><strong>Name</strong></label><br /><?php create_form_input('name', 'text', $add_category_errors); ?></div>
 						
 						<div class="field"><label for="description"><strong>Description</strong></label><br /><?php create_form_input('description', 'textarea', $add_category_errors); ?></div>

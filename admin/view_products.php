@@ -61,7 +61,7 @@ require ('../includes/form_functions.inc.php');
 					<td><?php echo $productBrand ?></td>
 					<td><?php echo $productPrice ?></td>
 					<td><a href="edit_product.php?product_id=<?php echo $row['id'] ?>">Edit</a></td>
-					<td><a href="delete_product.php?product_id=<?php echo $row['id'] ?>">Delete</a></td>
+					<td><a href="#">Delete</a></td>
 				</tr>
 				<?php
 			}

@@ -23,42 +23,10 @@ $edit_category_errors = array();
 // Check for a form submission:
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {	
 	$display = "";
+	
 	// Check for a id:
 	if (!isset($_POST['id']) || !filter_var($_POST['id'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
 		$edit_category_errors['id'] = 'Please select an ID!';
-	}
-	
-	// Check for a category:
-	if (!isset($_POST['category_id']) || !filter_var($_POST['category_id'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
-		$edit_category_errors['category_id'] = 'Please select a category!';
-	}
-
-	// Check for a price:
-	if (empty($_POST['price']) || !filter_var($_POST['price'], FILTER_VALIDATE_FLOAT) || ($_POST['price'] <= 0)) {
-		$edit_category_errors['price'] = 'Please enter a valid price!';
-	}
-	
-	// Check for a cost:
-	if (empty($_POST['cost']) || !filter_var($_POST['cost'], FILTER_VALIDATE_FLOAT) || ($_POST['cost'] <= 0)) {
-		$edit_category_errors['cost'] = 'Please enter a valid cost!';
-	}
-	
-	// Check for a stock:
-	if (empty($_POST['stock']) || !filter_var($_POST['stock'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
-		$edit_category_errors['stock'] = 'Please enter the quantity in stock!';
-	}
-
-	// Check for a feature:
-	if (empty($_POST['feat1'])) {
-		$edit_category_errors['feat1'] = 'Please enter a feature here!';
-	}
-	// Check for a feature:
-	if (empty($_POST['feat2'])) {
-		$edit_category_errors['feat2'] = 'Please enter a feature here!';
-	}
-	// Check for a feature:
-	if (empty($_POST['feat3'])) {
-		$edit_category_errors['feat3'] = 'Please enter a feature here!';
 	}
 	
 	// Check for a name:
@@ -71,10 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$edit_category_errors['description'] = 'Please enter the description!';
 	}
 
-	// Check for a is_featured:
-	if (!isset($_POST['is_featured'])) {
-		$edit_category_errors['is_featured'] = 'Please choose if the category should be featured!';
-	}
 	
 	// Check for an image:
 	if (is_uploaded_file ($_FILES['image']['tmp_name']) && ($_FILES['image']['error'] == UPLOAD_ERR_OK)) {
@@ -170,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 		// Add the category to the database:
 		//$q = "UPDATE categories SET category_id=?, name=?, brand=?, description=?, price=?, cost=?, feat1=?, feat2=?, feat3=?, image=?, is_featured=?, stock=? WHERE id=$id";
-		$q = "UPDATE categories SET name=?, brand=?, description=? WHERE id=?";
+		//$q = "UPDATE categories SET name=?, brand=?, description=? WHERE id=?";
 		
 		// Prepare the statement:
 		//$stmt = mysqli_prepare($dbc, $q);
@@ -185,28 +149,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		//$desc, $_SESSION['image']['new_name'], $_POST['price'], $_POST['stock']);
 		
 		// Make the extra variable associations:
-		$category = $_POST['category_id'];
 		$name = mysqli_real_escape_string($dbc, strip_tags($_POST['name']));
-		$brand = mysqli_real_escape_string($dbc, strip_tags($_POST['brand']));
 		$desc = mysqli_real_escape_string($dbc, strip_tags($_POST['description']));
-		$feat1 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat1']));
-		$feat2 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat2']));
-		$feat3 = mysqli_real_escape_string($dbc, strip_tags($_POST['feat3']));
-		$price = (double)$_POST['price'];
-		$cost = (double)$_POST['cost'];
-		//if (isset($_SESSION['image']['new_name'])) $image = $_SESSION['image']['new_name'];
 		if (isset($_SESSION['image'])) $image = $_SESSION['image'];
 		else $image = "#";
-		
-		$stock = $_POST['stock'];
-		
-		if ($_POST['is_featured'] == "yes") $isFeatured = true;
-		else if ($_POST['is_featured'] == "no") $isFeatured = false;
-	
+
 		// Execute the query:
 		//mysqli_stmt_execute($stmt);
-		$q = "UPDATE categories SET category_id='$category', name='$name', brand='$brand', description='$desc', price='$price', cost='$cost', 
-			feat1='$feat1', feat2='$feat2', feat3='$feat3', image='$image', is_featured='$isFeatured', stock='$stock' WHERE id=$id";
+		$q = "UPDATE categories SET name='$name', description='$desc', image='$image' WHERE id='$id'";
 			
 		mysqli_query($dbc, $q);
 		//trigger_error(mysqli_affected_rows($dbc). $q);
@@ -247,20 +197,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		{	
 			$_POST['id'] = $row['id'];
-			$_POST['category_id'] = $row['category_id'];
 			$_POST['name'] = $row['name'];
-			$_POST['brand'] = $row['brand'];
-			$_POST['price'] = $row['price'];
-			$_POST['cost'] = $row['cost'];
-			$_POST['feat1'] = $row['feat1'];
-			$_POST['feat2'] = $row['feat2'];
-			$_POST['feat3'] = $row['feat3'];
-			$_SESSION['image'] = $row['image'];
-			$_SESSION['image'] = $row['image'];
 			$_POST['description'] = $row['description'];
-			$_POST['is_featured'] = $row['is_featured'];
-			$_POST['stock'] = $row['stock'];
-
+			$_SESSION['image'] = $row['image'];
 		}
 	}
 	else {
@@ -289,52 +228,14 @@ require ('../includes/form_functions.inc.php');
 				<input type="hidden" name="MAX_FILE_SIZE" value="524288" />
 				
 				<fieldset><legend>Fill out the form to edit the category. All fields are required.</legend>
-					<?php
-						if (isset($_SESSION['image'])) {
-							echo '<img src="../img/' . $_SESSION['image'] . '" alt="#" style="float:right;" />';
-						} ?>
-					<div class="field"><label for="id"><strong>category ID</strong></label><br /><?php create_form_input('id', 'text', $edit_category_errors); ?></div>
-					
-					<div class="field"><label for="category_id"><strong>Category</strong></label><br /><select name="category_id"<?php if (array_key_exists('category_id', $edit_category_errors)) echo ' class="error"'; ?>>
-						<option>Select One</option>
+						<div class="field"><label for="id"><strong>Category ID</strong></label><br /><?php create_form_input('id', 'text', $edit_category_errors); ?></div>
 						
-						
-						<?php // Retrieve all the categories and add to the pull-down menu:
-						$q = 'SELECT id, name FROM categories ORDER BY name ASC';		
-						$r = mysqli_query ($dbc, $q);
-							while ($row = mysqli_fetch_array ($r, MYSQLI_NUM)) {
-								echo "<option value=\"$row[0]\"";
-								// Check for stickyness:
-								if (isset($_POST['category_id']) && ($_POST['category_id'] == $row[0]) ) echo ' selected="selected"';
-								echo ">$row[1]</option>\n";
-							}
-						?>
-						</select><?php if (array_key_exists('category_id', $edit_category_errors)) echo ' <span class="error">' . $edit_category_errors['category_id'] . '</span>'; ?></div>
-					
 						<div class="field"><label for="name"><strong>Name</strong></label><br /><?php create_form_input('name', 'text', $edit_category_errors); ?></div>
 						
-						<div class="field"><label for="brand"><strong>Brand</strong></label><br /><?php create_form_input('brand', 'text', $edit_category_errors); ?></div>
-						
-						<div class="field"><label for="price"><strong>Price</strong></label><br /><?php create_form_input('price', 'text', $edit_category_errors); ?> <small>Without the dollar sign.</small></div>
-						
-						<div class="field"><label for="cost"><strong>Cost</strong></label><br /><?php create_form_input('cost', 'text', $edit_category_errors); ?> <small>Without the dollar sign.</small></div>
-						
-						<div class="field"><label for="feat1"><strong>Feature 1</strong></label><br /><?php create_form_input('feat1', 'text', $edit_category_errors); ?></div>
-						<div class="field"><label for="feat2"><strong>Feature 2</strong></label><br /><?php create_form_input('feat2', 'text', $edit_category_errors); ?></div>
-						<div class="field"><label for="feat3"><strong>Feature 3</strong></label><br /><?php create_form_input('feat3', 'text', $edit_category_errors); ?></div>
-						
-						<div class="field"><label for="stock"><strong>Initial Quantity in Stock</strong></label><br /><?php create_form_input('stock', 'text', $edit_category_errors); ?></div>
-						
 						<div class="field"><label for="description"><strong>Description</strong></label><br /><?php create_form_input('description', 'textarea', $edit_category_errors); ?></div>
-						
-						<div class="field"><label for="is_featured"><strong>Featured?</strong></label><br />
-							<select name="is_featured"<?php if (array_key_exists('is_featured', $edit_category_errors)) echo ' class="error"'; ?>>
-								<option value="no" <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>>No</option>
-								<option value="yes" <?php if (isset($_POST['is_featured']) && ($_POST['is_featured'] == $row[0]) ) echo ' selected="selected"'; ?>>Yes</option>
-							</select><?php if (array_key_exists('is_featured', $edit_category_errors)) echo ' <span class="error">' . $edit_category_errors['is_featured'] . '</span>'; ?>
-						</div>
 												
 						<div class="field"><label for="image"><strong>Image</strong></label><br /><?php
+					
 						// Check for an error:
 						if (array_key_exists('image', $edit_category_errors)) {
 							
@@ -351,9 +252,12 @@ require ('../includes/form_functions.inc.php');
 							}*/
 
 						} // end of errors IF-ELSE.
-						
-					 ?></div>
-				
+					 ?>
+					</div>
+					<?php
+					if (isset($_SESSION['image'])) {
+						echo '<img src="../img/' . $_SESSION['image'] . '" alt="#" style="float:right;" />';
+					} ?>
 				<br clear="all" />
 				
 				<div class="field"><input type="submit" value="Update This category" class="button" /></div>
