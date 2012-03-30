@@ -42,14 +42,14 @@
 							
 							// Array of labels and pages (without extensions):
 							$pages = array (
-								'PRODUCTS' => 'catalog.php',
-								'FEATURED ITEMS' => 'featured.php',
-								'CONTACT US' => 'contact.php'
+								'PRODUCTS' => 'http://'.BASE_URL.'catalog.php',
+								'FEATURED ITEMS' => 'http://'.BASE_URL.'featured.php',
+								'CONTACT US' => 'http://'.BASE_URL.'contact.php'
 							);
 
 							// The page being viewed:
 							$this_page = basename($_SERVER['PHP_SELF']);
-							
+							//$this_page = str_replace("admin/","",$this_page);
 							$tabnum = 1;
 							// Create each menu item:
 							foreach ($pages as $k => $v) {
